@@ -4,3 +4,5 @@ In England the currency is made up of pound, £, and pence, p, and there are eig
 How many different ways can £2 (200p) be made using any number of coins?
 
 The solution is a recursive function. It doesn't print combinations of coins, just counts combinations that add up to £2 (200p). We sort coins in descending order and start from the biggest coin, trying to make a combination.
+
+**The answer is 73,682 different combinations.**
