@@ -6,7 +6,7 @@
 using namespace std;
 
 /////////////////////
-// The problem requires to find all combinations of polinomial
+// The problem requires to count all combinations of polinomial
 // coefficients for monetary denominations so that the result
 // will be 2 pounds (= 200p for our purposes)*:
 // A1*200 + A2*100 + A3*50 + A4*20 + A5*10 + A6*5 + A7*2 + A8+1 = 200
@@ -14,30 +14,18 @@ using namespace std;
 std::vector<int> currency = { 200, 100, 50, 20, 10, 5, 2, 1 };
 std::vector<int> coeffs(8, 0); // coefficients, all zeroes for start
 
-void PrintCombination() {
-	for (int i = 0; i < 8; i++) {
-		cout << coeffs[i] << "*" << currency[i] << " ";
-		if (coeffs[i] < currency.size() -1) {
-			cout << "+ ";
-		} else {
-			cout << "= 200;\n";
-		}
-	}
-}
-
 void FillTotalByDenominations(int* pos, int* sum_left, *count) {
 	int left = *sum_left % currency[*pos];
 	coeffs[*pos] = (*sum_left - left) / currency[*pos];
 	*sum_left = left;
 	*pos += 1;
-	if (*sum_left > 0 && *pos < length) {
+	if (*sum_left > 0 && *pos < currency.size()) {
 		// There are more amounts to try and there is sum_left to fill.
-		FillTotalByDenominations(pos, sum_left, length);
+		FillTotalByDenominations(pos, sum_left, count);
 	}
 	else {
 		if (*sum_left == 0) {
 			*count += 1;
-			PrintCombination();
 		}
 		// Adjust iterators and sum_left: move currency one step forward,
 		// decrease the 'previous' non-zero coefficient by 1 and decrease
@@ -65,7 +53,7 @@ void FillTotalByDenominations(int* pos, int* sum_left, *count) {
 		coeffs[prev_non_zero_pos] = coeffs[prev_non_zero_pos] - 1;
 		*sum_left += currency[prev_non_zero_pos];
 		*pos = prev_non_zero_pos + 1;
-		FillTotalByDenominations(pos, sum_left, length, count);
+		FillTotalByDenominations(pos, sum_left, count);
 	}
 }
 
